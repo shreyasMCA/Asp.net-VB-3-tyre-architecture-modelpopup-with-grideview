@@ -1,0 +1,78 @@
+Imports System
+Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Configuration
+Imports DataAccess
+Imports Microsoft.VisualBasic
+Public Class bl_category
+
+    Private Property catagory_id As Object
+    Private Property catagory_name As Object
+    Private Property catagory_desc As Object
+
+
+    Public Shared Function SaveData(ByVal objcategory As Common.co_category) As Integer
+        Dim objcon As New DataAccess.dataaccess
+        Dim arrayparam As New ArrayList
+        Dim arrayvalue As New ArrayList
+
+
+        arrayparam.Add("@StatementType")
+        arrayparam.Add("@category_id")
+        arrayparam.Add("@category_name")
+        arrayparam.Add("@category_desc")
+
+
+
+        arrayvalue.Add("I")
+        arrayvalue.Add(objcategory.id)
+        arrayvalue.Add(objcategory.name)
+        arrayvalue.Add(objcategory.desc)
+
+        SaveData = objcon.ExecuteQuerySp("category", arrayparam, arrayvalue)
+
+
+    End Function
+
+    Public Shared Function UpdateData(ByVal objcategory As Common.co_category) As Integer
+        Dim objcon As New DataAccess.dataaccess
+        Dim arrayparam As New ArrayList
+        Dim arrayvalue As New ArrayList
+
+
+        arrayparam.Add("@StatementType")
+        arrayparam.Add("@category_id")
+        arrayparam.Add("@category_name")
+        arrayparam.Add("@category_desc")
+
+
+        arrayvalue.Add("U")
+        arrayvalue.Add(objcategory.id)
+        arrayvalue.Add(objcategory.name)
+        arrayvalue.Add(objcategory.desc)
+
+
+        UpdateData = objcon.ExecuteQuerySp("category", arrayparam, arrayvalue)
+
+
+    End Function
+    Public Shared Function loaddata() As DataSet
+        Dim objcon As New DataAccess.dataaccess
+        Dim str As String
+        Dim ds As New DataSet
+        str = "select category_id,category_name,category_desc from tbl_category"
+        loaddata = objcon.FillDataSet(ds, str, "dscategory")
+    End Function
+
+    Public Shared Function auto(ByVal objcategory As Common.co_category) As Integer
+        Dim objcon As New DataAccess.dataaccess
+        Dim arrayparam As New ArrayList
+        Dim arrayvalue As New ArrayList
+
+        arrayparam.Add("@sequence_code")
+
+        arrayvalue.Add(objcategory.id)
+
+        auto = objcon.ExecuteQuerySp("SeqAll", arrayparam, arrayvalue)
+    End Function
+End Class

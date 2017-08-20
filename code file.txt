@@ -1,0 +1,95 @@
+Imports BusinessLogic
+Imports Common
+Imports DataAccess
+Imports System.Data
+Public Class Category
+    Inherits System.Web.UI.Page
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Page.IsPostBack = False Then
+            txtcid.Text = AutoInc()
+            Session("mode") = "A"
+            btnnew.Visible = False
+            GridView1.DataSource = BusinessLogic.bl_category.loaddata()
+            GridView1.DataBind()
+        End If
+    End Sub
+   
+    Protected Sub btnsave_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnsave.Click
+        Dim objcategory As New Common.co_category
+
+        objcategory.id = txtcid.Text
+        objcategory.name = txtcatname.Text
+        objcategory.desc = txtcatdesc.Text
+
+
+        Dim success As Integer
+        If Session("mode") = "A" Then
+            success = BusinessLogic.bl_category.SaveData(objcategory)
+        End If
+        GridView1.DataSource = BusinessLogic.bl_category.loaddata()
+        GridView1.DataBind()
+        Session("mode") = "A"
+        btnsave.Visible = False
+        btnnew.Visible = True
+    End Sub
+    Private Sub btnUpdate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnUpdate.Click
+        Dim objcategory As New Common.co_category
+
+        objcategory.id = txtUpdateCid.Text
+        objcategory.name = txtUpdateCname.Text
+        objcategory.desc = txtUpdateCdesc.Text
+
+
+        Dim success As Integer
+        If Session("mode") = "U" Then
+            success = BusinessLogic.bl_category.UpdateData(objcategory)
+        End If
+        GridView1.DataSource = BusinessLogic.bl_category.loaddata()
+        GridView1.DataBind()
+        Session("mode") = "A"
+    End Sub
+    Protected Sub Edit(ByVal sender As Object, ByVal e As EventArgs)
+
+        Dim row As GridViewRow = CType(CType(sender, LinkButton).Parent.Parent, GridViewRow)
+        txtUpdateCid.Text = row.Cells(1).Text
+        txtUpdateCname.Text = row.Cells(2).Text
+        txtUpdateCdesc.Text = row.Cells(3).Text
+        Session("mode") = "U"
+        popup.Show()
+
+    End Sub
+    Protected Sub GridView1_PageIndexChanging(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewPageEventArgs) Handles GridView1.PageIndexChanging
+        GridView1.PageIndex = e.NewPageIndex
+        GridView1.DataBind()
+        GridView1.DataSource = BusinessLogic.bl_category.loaddata()
+        GridView1.DataBind()
+    End Sub
+
+    Protected Sub btnnew_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnnew.Click
+        txtcid.Text = AutoInc()
+        btnsave.Visible = True
+        btnnew.Visible = False
+        txtcatname.Text = " "
+        txtcatdesc.Text = " "
+    End Sub
+    Public Shared Function AutoInc() As String
+        Dim objcategory As New Common.co_category
+        Dim numstr As String
+        Dim str As String
+        Dim str1 As String
+        Dim num As Integer
+        objcategory.id = "C"
+        num = BusinessLogic.bl_category.auto(objcategory)
+        numstr = num.ToString
+        str1 = "C"
+        numstr = numstr.PadLeft(4, "0"c)
+        str = (str1 + numstr)
+        Return str
+    End Function
+
+    Protected Sub btnclear_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnclear.Click
+        txtcatname.Text = ""
+        txtcatdesc.Text = ""
+    End Sub
+End Class

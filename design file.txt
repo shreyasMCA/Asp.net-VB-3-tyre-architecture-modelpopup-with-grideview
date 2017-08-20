@@ -1,0 +1,169 @@
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="asp" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <form id="frmCategory" action="" method="post">
+     
+<asp:UpdatePanel ID="UpdatePanelCategory" runat="server">
+<ContentTemplate>
+    <table style="width: 100%; height:100%;">
+               
+        <tr>
+            <td style="color: #008080" width="40%" align="right"><br />
+            <div>
+                <b>Categody Id</b>
+            </div>
+            </td>
+            <td align="left"><br />
+            <div>
+               <asp:TextBox ID="txtcid" runat="server" class="form-control" ToolTip="Category Id" TextMode="SingleLine" ReadOnly="true" Width="25%" Height="10%"></asp:TextBox>
+              
+            </div> 
+            </td>
+        </tr>
+        <tr>
+            <td style="color: #008080" width="40%" align="right"><br />
+            <div>
+                <b>Name</b>
+            </div>
+            </td>
+            <td align="left"><br />
+            <div>
+               <asp:TextBox ID="txtcatname" runat="server" class="form-control" ReadOnly="false" ToolTip="Category Name" TextMode="SingleLine" Width="25%" Height="10%"></asp:TextBox>
+               <asp:FilteredTextBoxExtender ID="ftbcname" runat="server" InvalidChars="',&,%," FilterMode="InvalidChars"  TargetControlID="txtcatname"></asp:FilteredTextBoxExtender>
+               <asp:RequiredFieldValidator ID="bname" ControlToValidate="txtcatname" runat="server" SetFocusOnError="true" CssClass="spvalidate" ValidationGroup="save" ErrorMessage="Enter Category Name" Text="*"></asp:RequiredFieldValidator>
+            </div> 
+            </td>
+        </tr>
+        <tr>
+            <td style="color: #008080" width="40%" align="right"><br />
+            <div>
+                <b>Discribtion</b>
+            </div>
+            </td>
+            <td align="left"><br />
+            <div>
+               <asp:TextBox ID="txtcatdesc" runat="server" class="form-control" ReadOnly="false" ToolTip="Category Discription" TextMode="MultiLine" Width="25%" Height="10%"></asp:TextBox>
+               <asp:FilteredTextBoxExtender ID="ftbcdesc" runat="server" InvalidChars="',&,%," FilterMode="InvalidChars"  TargetControlID="txtcatdesc"></asp:FilteredTextBoxExtender>
+               <asp:RequiredFieldValidator ID="bdesc" ControlToValidate="txtcatdesc" runat="server" SetFocusOnError="true" CssClass="spvalidate" ValidationGroup="save" ErrorMessage="Enter Category Description" Text="*"></asp:RequiredFieldValidator>
+            </div> 
+            </td>
+        </tr>
+
+       
+        <tr>
+        <td></td>
+            <td align="left">
+                <br />
+                <asp:Button ID="btnnew" runat="server" BorderWidth="3" class="btncss" 
+                            CssClass="spbtn" style="background-color:  #009B9B" Text="Add" />
+               <asp:Button ID="btnsave" runat="server" BorderWidth="3" class="btncss" 
+                    CssClass="spbtn" style="background-color:  #009B9B" Text="Save" ValidationGroup="save"/>
+                <asp:Button ID="btnclear" runat="server" BorderWidth="3" class="btncss" 
+                    CssClass="spbtn" style="background-color:  #009B9B" Text="Clear" />
+            </td>
+       </tr>
+     </table>
+
+     <table align="center"  width="70%">
+        <caption>
+            <br />
+            <tr>
+                <td>
+                    <asp:GridView ID="GridView1" runat="server" AllowPaging="True"
+                        AutoGenerateColumns="False" BorderWidth="1px" 
+                        CellPadding="3" Width="100%" BackColor="White" BorderColor="#999999"  
+                        BorderStyle="None" PageSize="5" GridLines="Vertical">
+                        <AlternatingRowStyle BackColor="#DCDCDC" />
+                        <Columns>
+                            <asp:TemplateField ItemStyle-Width = "30px">
+                               <ItemTemplate>
+                                   <asp:LinkButton ID="lnkEdit" runat="server" Text = "Edit" OnClick="Edit"></asp:LinkButton>
+                               </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:BoundField DataField="category_id" HeaderText="ID" 
+                                ItemStyle-HorizontalAlign="Center">
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
+                            <asp:BoundField DataField="category_name" HeaderText="Name" 
+                                ItemStyle-HorizontalAlign="Center">
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
+                            <asp:BoundField DataField="category_desc" HeaderText="Discription" 
+                                ItemStyle-HorizontalAlign="Center">
+                            <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
+                        </Columns>
+                        <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
+                        <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" 
+                            HorizontalAlign="Center"/>
+                        <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+                        <RowStyle HorizontalAlign="Center" BackColor="#EEEEEE" ForeColor="Black"/>
+                        <SelectedRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White"/>
+                        <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                        <SortedAscendingHeaderStyle BackColor="#0000A9" />
+                        <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                        <SortedDescendingHeaderStyle BackColor="#000065" />
+                    </asp:GridView>
+                </td>
+            </tr>
+        </caption>
+ </table>
+<asp:Panel ID="pnlAddEdit" runat="server" CssClass="ShowPopUp" style = "display:none">
+    <asp:Label Font-Bold = "true" ID = "Label4" runat = "server" Text = "Update Category Details" ></asp:Label>
+    <br />
+<table align = "center">
+    <tr>
+        <td>
+            <asp:Label ID = "Label1" runat = "server" Text = "Category Id" ></asp:Label>
+        </td>
+            <td>
+                <asp:TextBox ID="txtUpdateCid" Width = "40px" MaxLength = "5" runat="server" ReadOnly = "true"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID = "Label2" runat = "server" Text = "Name" ></asp:Label>
+            </td>
+            <td>
+                <asp:TextBox ID="txtUpdateCname" runat="server"></asp:TextBox>   
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID = "Label3" runat = "server" Text = "Description" ></asp:Label>
+            </td>
+            <td>
+                <asp:TextBox ID="txtUpdateCdesc" runat="server"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Button ID="btnUpdate" runat="server" BorderWidth="3" class="btncss" 
+                 CssClass="spbtn" style="background-color:  #009B9B" Text="Update" />
+                
+            </td>
+            </td>
+            <td>
+                   <asp:Button ID="btnCancel" runat="server" BorderWidth="3" class="btncss" 
+                    CssClass="spbtn" style="background-color:  #009B9B" Text="Cancel" OnClientClick = "return Hidepopup()"/>
+            </td>
+        </tr>
+        </table>
+        </asp:Panel>
+        <asp:LinkButton ID="lnkFake" runat="server"> </asp:LinkButton>
+        <asp:ModalPopupExtender ID="popup" runat="server" DropShadow="false" PopupControlID="pnlAddEdit" TargetControlID = "lnkFake" BackgroundCssClass="ModalBackGround">
+        
+        </asp:ModalPopupExtender>
+</ContentTemplate>
+</asp:UpdatePanel>
+<asp:ValidationSummary ID="ValidationSummary2"
+ShowMessageBox="true"
+ShowSummary="false"
+ValidationGroup = "save"
+HeaderText="You Must Enter A Value In The Following Fields"
+EnableClientScript="true"
+runat="server"/>
+</form>
+</asp:Content>

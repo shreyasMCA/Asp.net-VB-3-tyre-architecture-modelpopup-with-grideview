@@ -1,0 +1,35 @@
+Public Class co_category
+
+    Private seqcode As String
+    Private category_id As String
+    Private category_name As String
+    Private category_desc As String
+
+
+    Property id() As String
+        Get
+            Return category_id
+        End Get
+        Set(ByVal value As String)
+            category_id = value
+        End Set
+    End Property
+
+    Property name() As String
+        Get
+            Return category_name
+        End Get
+        Set(ByVal value As String)
+            category_name = value
+        End Set
+    End Property
+
+    Property desc() As String
+        Get
+            Return category_desc
+        End Get
+        Set(ByVal value As String)
+            category_desc = value
+        End Set
+    End Property
+End Class
